@@ -1,0 +1,3 @@
+FLASK_APP=api.py
+FLASK_EVN=development
+FLASK_DEBUG=1
