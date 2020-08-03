@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 import time
 
@@ -19,3 +19,12 @@ def getBanner(bannerid):
     return {'bannerid': bannerid}
 
 
+@app.route('/api/login', methods=['POST'])
+def userLogin():
+    print('request.get_data() : {}'.format(request.get_data()))
+    print('request : {}'.format(request.get_json()))
+    tmp_user = {
+        'name': '홍길동',
+        'email': 'test.test.com'
+    }
+    return {'success': True, 'user': tmp_user}
