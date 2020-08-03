@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Route, NavLink, Link } from "react-router-dom";
-import { Layout, Menu, Breadcrumb, Button } from 'antd';
+import { Layout, Menu, Breadcrumb, Button, message } from 'antd';
 import {
     UserOutlined,
     LinkOutlined,
@@ -24,12 +24,13 @@ function DefaultLayout(props) {
     const user = useSelector(state => state?.user)
     const [currentTime, setcurrentTime] = useState('')
 
-    
-
     useEffect(() => {
         console.log(user);
         if(!user) {
             props.history.push('/login')
+            setTimeout(() => {
+                message.warning('먼저 로그인 해주세요.')
+            }, 600);       
         }       
         return () => {
             
@@ -39,7 +40,14 @@ function DefaultLayout(props) {
     const handleOnClick = () => {
         props.logoutUser()
         props.history.push('/login')
-
+        setTimeout(() => {
+            message.success('성공적으로 로그아웃 되었습니다.  ')
+          }, 600); 
+    }
+    
+    const floatRight = {
+        float:'right',
+        margin:'0px 10px'
     }
 
     return (
@@ -51,7 +59,7 @@ function DefaultLayout(props) {
             left: 0,
         }}>
             <div className="logo">
-                <Link to="/" >DAMS</Link>
+                <NavLink to="/" defaultSelectedKeys={['']} >DAMS</NavLink>
             </div>
             <Menu theme="dark" mode="inline"
                 defaultSelectedKeys={['']}
@@ -85,9 +93,8 @@ function DefaultLayout(props) {
         <Layout className="site-layout" style={{ marginLeft: 200, minHeight: "1200px" }}>
             <Header className="site-layout-background" style={{ padding: 0 }}>
                 {currentTime !== 0 && currentTime}
-                <span>{user?.name}님 안녕하세요.</span>
-                <Link to="/login" style={{ position:"absolute", right:"15px"}}>Login</Link>
-                <Button onClick={handleOnClick}>Logout</Button>
+                <a href="#" onClick={handleOnClick} style={{...floatRight}}>Logout</a>
+                <span style={{...floatRight}}>{user?.name}님 안녕하세요.</span>
             </Header>
             <Breadcrumb style={{ margin: '20px 20px 0px' }}>
                 <Breadcrumb.Item>Home</Breadcrumb.Item>

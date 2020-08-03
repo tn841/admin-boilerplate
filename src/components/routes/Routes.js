@@ -14,12 +14,7 @@ function Routes(props) {
 
 
     useEffect(() => {
-        
-        console.log(props)
-
-        return () => {
-            
-        }
+        return () => {}
     }, [])
 
     return (
