@@ -1,17 +1,19 @@
 import React from 'react'
-import { Row, Form, Input, Button, Checkbox } from 'antd';
-import { connect } from 'react-redux';
-import { actionCreators } from '../../../store'
+import { Row, Form, Input, Button, Checkbox, Divider, Col } from 'antd';
+import { login } from '../../../store/user'
+import { useDispatch } from 'react-redux';
 
 const layout = {
   labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  wrapperCol: { span: 14 },
 };
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
 function LoginPage(props) {
+
+  const dispatch = useDispatch()
 
   const onFinish = values => {
     console.log('Success:', values);
@@ -21,7 +23,8 @@ function LoginPage(props) {
     }).then(res => res.json())
       .then(res => {
         if (res.success) {
-          props.loginUser(res.user)
+          dispatch(login(res.user))
+
           props.history.push('/')
         } else {
           alert('로그인 실패.')
@@ -41,11 +44,12 @@ function LoginPage(props) {
   }
 
   return (
-    <div>
-      <Row {...rowLayout}>
-        <h1>로그인</h1>
-      </Row>
-      <Row {...rowLayout}>
+    <div style={{position: 'relative', top: '20%'}}>
+
+      <Row >
+      <Col span={12} offset={6}>
+        <h1 {...rowLayout}>로그인</h1>
+        <Divider orientation="left" style={{ color: '#333', fontWeight: 'normal' }} />
         <Form
           {...layout}
           name="basic"
@@ -80,19 +84,10 @@ function LoginPage(props) {
         </Button>
           </Form.Item>
         </Form>
+      </Col>
       </Row>
     </div>
   )
 }
 
-function mapStateToProps(state, ownProps) {
-  return { state, ownProps }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    loginUser: (user) => dispatch(actionCreators.loginUser(user))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
+export default LoginPage

@@ -6,26 +6,28 @@ import {
     LinkOutlined,
 } from '@ant-design/icons';
 
-import MainPage from '../MainPage/MainPage'
-import BannerIndexPage from '../BannerPage/BannerIndexPage'
-import BannerCreatePage from '../BannerPage/BannerCreatePage'
-import BannerPreviewPage from '../BannerPage/BannerPreviewPage'
-import BannerStaticsPage from '../BannerPage/BannerStaticsPage'
-import UserIndexPage from '../UserPage/UserIndexPage'
-import UserManagePage from '../UserPage/UserManagePage'
-import { useSelector, connect } from 'react-redux';
+import MainPage from '../views/MainPage/MainPage'
+import BannerIndexPage from '../views/BannerPage/BannerIndexPage'
+import BannerCreatePage from '../views/BannerPage/BannerCreatePage'
+import BannerPreviewPage from '../views/BannerPage/BannerPreviewPage'
+import BannerStaticsPage from '../views/BannerPage/BannerStaticsPage'
+import UserIndexPage from '../views/UserPage/UserIndexPage'
+import UserManagePage from '../views/UserPage/UserManagePage'
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { actionCreators } from '../../../store';
 
+import {logout} from '../../store/user'
 const { Sider, Header, Content } = Layout;
 const { SubMenu } = Menu;
 
 function DefaultLayout(props) {
     const user = useSelector(state => state?.user)
+    const dispatch = useDispatch()
     const [currentTime, setcurrentTime] = useState('')
 
     useEffect(() => {
         console.log(user);
+        
         if(!user) {
             props.history.push('/login')
             setTimeout(() => {
@@ -38,7 +40,7 @@ function DefaultLayout(props) {
     }, [])
 
     const handleOnClick = () => {
-        props.logoutUser()
+        dispatch(logout())
         props.history.push('/login')
         setTimeout(() => {
             message.success('성공적으로 로그아웃 되었습니다.  ')
@@ -59,7 +61,7 @@ function DefaultLayout(props) {
             left: 0,
         }}>
             <div className="logo">
-                <NavLink to="/" defaultSelectedKeys={['']} >DAMS</NavLink>
+                <NavLink to="/" >DAMS</NavLink>
             </div>
             <Menu theme="dark" mode="inline"
                 defaultSelectedKeys={['']}
@@ -127,14 +129,4 @@ function DefaultLayout(props) {
     )
 }
 
-function mapStatusToProps(state, ownProps) {
-    return {state, ownProps}
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        logoutUser: () => dispatch(actionCreators.logoutUser())
-    }
-}
-
-export default connect(mapStatusToProps, mapDispatchToProps) (DefaultLayout)
+export default DefaultLayout

@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react'
-import LoginPage from '../LoginPage/LoginPage'
+import LoginPage from '../views/LoginPage/LoginPage'
 import { useSelector } from 'react-redux';
-import { message } from 'antd';
-
 
 
 function LoginLayout(props) {
   const user = useSelector(state => state?.user)
-
+  console.log(props)
   useEffect(() => {
     if(user){
       props.history.push('/')
@@ -18,7 +16,9 @@ function LoginLayout(props) {
   }, [])
 
   return (
+    <div style={{height: '100vh'}}>
       <LoginPage {...props} />
+    </div>
   );
 }
 

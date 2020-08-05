@@ -1,14 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import Routes from './routes/Routes'
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
-function App(props) {
+import { Layout } from 'antd';
+
+import LoginLayout from './Layout/LoginLayout'
+import DefaultLayout from './Layout/DefaultLayout'
 
 
-  return (
-    <Routes {...props} />
-  )
+function App() {
+
+    return (
+        <Router>
+            <Layout>
+                <Switch>
+                    <Route exact path="/login" component={LoginLayout} />
+                    <Route component={DefaultLayout} />
+                </Switch>
+            </Layout>
+        </Router>
+    )
 }
 
 export default App
+
+
 
 
