@@ -5,6 +5,7 @@ import { Layout } from 'antd';
 
 import LoginLayout from './Layout/LoginLayout'
 import DefaultLayout from './Layout/DefaultLayout'
+import auth from '../hoc/auth';
 
 
 function App() {
@@ -13,8 +14,8 @@ function App() {
         <Router>
             <Layout>
                 <Switch>
-                    <Route exact path="/login" component={LoginLayout} />
-                    <Route component={DefaultLayout} />
+                    <Route exact path="/login" component={auth(LoginLayout, false)} />
+                    <Route component={auth(DefaultLayout, true)} />
                 </Switch>
             </Layout>
         </Router>

@@ -26,14 +26,13 @@ function DefaultLayout(props) {
     const [currentTime, setcurrentTime] = useState('')
 
     useEffect(() => {
-        console.log(user);
         
-        if(!user) {
-            props.history.push('/login')
-            setTimeout(() => {
-                message.warning('먼저 로그인 해주세요.')
-            }, 600);       
-        }       
+        // if(!user) {
+        //     props.history.push('/login')
+        //     setTimeout(() => {
+        //         message.warning('먼저 로그인 해주세요.')
+        //     }, 600);       
+        // }       
         return () => {
             
         }

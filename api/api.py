@@ -1,20 +1,15 @@
-from flask import Flask, request
-from flask_cors import CORS
-import time
+from flask import Blueprint, request, session
+from auth.user import User
+from auth import api_auth_check
 
-app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+api = Blueprint('api', __name__, url_prefix='/api')
 
-@app.route('/')
-def index():
-    return {'data': 'welcome index'}
-
-@app.route('/api/time')
+@api.route('/time')
 def mytime():
     return {'time': time.time()}
 
-@app.route('/api/getBanner')
-@app.route('/api/getBanner/<bannerid>')
+@api.route('/getBanner')
+@api.route('/getBanner/<bannerid>')
 def getBanner(bannerid=''):
     print("bannerid : {}".format(bannerid))
     tmp_banner = {
@@ -43,17 +38,27 @@ def getBanner(bannerid=''):
         },
       "probability": 2
     }
-    return {'success': True, 'data': tmp_banners}
+    return {'success': True, 'data': tmp_banner}
 
 
 
-@app.route('/api/login', methods=['POST'])
+@api.route('/login', methods=['POST'])
 def userLogin():
     print('request.get_data() : {}'.format(request.get_data()))
     print('request : {}'.format(request.get_json()))
+    
+    session['token'] = User.create_token({})
+
     tmp_user = {
         'name': '홍길동',
         'email': 'test.test.com'
     }
     return {'success': True, 'user': tmp_user}
 
+# decodrator
+@api.route('/auth')
+@api_auth_check
+def auth_check(auth_result):
+    print('auth_result : {}'.format(auth_result))
+    
+    return auth_result
