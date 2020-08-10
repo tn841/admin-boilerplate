@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Route, NavLink, Link } from "react-router-dom";
+import { Route, NavLink, Link, withRouter } from "react-router-dom";
 import { Layout, Menu, Breadcrumb, Button, message } from 'antd';
 import {
     UserOutlined,
@@ -17,33 +17,40 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
 import {logout} from '../../store/user'
+import Axios from 'axios';
 const { Sider, Header, Content } = Layout;
 const { SubMenu } = Menu;
 
+const fetchLogoutUser = async () => {
+    await Axios('/api/logout')
+    .then(res => res.data)
+}
+
 function DefaultLayout(props) {
     const user = useSelector(state => state?.user)
+    const isLogin = useSelector(state => state.user.isLogin)
     const dispatch = useDispatch()
     const [currentTime, setcurrentTime] = useState('')
 
     useEffect(() => {
-        
-        // if(!user) {
-        //     props.history.push('/login')
-        //     setTimeout(() => {
-        //         message.warning('먼저 로그인 해주세요.')
-        //     }, 600);       
-        // }       
+        console.log(props)
         return () => {
             
         }
     }, [])
 
     const handleOnClick = () => {
-        dispatch(logout())
-        props.history.push('/login')
-        setTimeout(() => {
-            message.success('성공적으로 로그아웃 되었습니다.  ')
-          }, 600); 
+
+        fetchLogoutUser().then(
+            res => {
+                console.log(res)
+                dispatch(logout())
+                props.history.push('/login')
+                setTimeout(() => {
+                    message.success('성공적으로 로그아웃 되었습니다.  ')
+                }, 600);    
+            }
+        )
     }
     
     const floatRight = {
@@ -51,9 +58,10 @@ function DefaultLayout(props) {
         margin:'0px 10px'
     }
 
-    return (
+    return ( 
         <>
-        <Sider style={{
+        {isLogin && (<>
+            <Sider style={{
             overflow: 'auto',
             height: '100vh',
             position: 'fixed',
@@ -124,8 +132,11 @@ function DefaultLayout(props) {
               <Route exact path="/favorite/" component={Auth(FavoritePage, null)} /> */}
             </Content>
         </Layout>
+        
+        </>)}
+        
         </>
     )
 }
 
-export default DefaultLayout
+export default withRouter(DefaultLayout) 

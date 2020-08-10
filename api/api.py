@@ -10,7 +10,8 @@ def mytime():
 
 @api.route('/getBanner')
 @api.route('/getBanner/<bannerid>')
-def getBanner(bannerid=''):
+@api_auth_check
+def getBanner(auth_result, bannerid=''):
     print("bannerid : {}".format(bannerid))
     tmp_banner = {
         "service_id": "1",
@@ -47,13 +48,22 @@ def userLogin():
     print('request.get_data() : {}'.format(request.get_data()))
     print('request : {}'.format(request.get_json()))
     
-    session['token'] = User.create_token({})
-
     tmp_user = {
         'name': '홍길동',
-        'email': 'test.test.com'
+        'email': 'test.test.com',
+        'isLogin': True
     }
+
+    session['token'] = User.create_token(tmp_user)
     return {'success': True, 'user': tmp_user}
+
+
+@api.route('/logout')    
+@api_auth_check
+def userLogout(auth_result):
+    del session['token']
+    return {'success': True}
+
 
 # decodrator
 @api.route('/auth')

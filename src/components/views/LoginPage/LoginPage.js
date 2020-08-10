@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Form, Input, Button, Checkbox, Divider, Col } from 'antd';
+import { Row, Form, Input, Button, Checkbox, Divider, Col, message } from 'antd';
 import { login } from '../../../store/user'
 import { useDispatch } from 'react-redux';
 
@@ -24,7 +24,7 @@ function LoginPage(props) {
       .then(res => {
         if (res.success) {
           dispatch(login(res.user))
-
+          message.success('로그인 되었습니다.');
           props.history.push('/')
         } else {
           alert('로그인 실패.')

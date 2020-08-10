@@ -8,7 +8,7 @@ import time
 
 app = Flask(__name__)
 app.secret_key = "danal_advertisement_manage_system_1!@#43"
-app.permanent_session_lifetime = timedelta(seconds=10)
+app.permanent_session_lifetime = timedelta(minutes=30)
 app.register_blueprint(api)
 
 print(app.config)

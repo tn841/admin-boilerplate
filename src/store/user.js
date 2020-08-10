@@ -1,50 +1,49 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
+// export const fetchUser = createAsyncThunk(
+//     'user/fetchUser',   // 액션 이름
+//     async () => {
+//         const res = await axios.get('/api/auth');
+//         return res.data
+//     }
+// )
+
 const user = createSlice({
-    name: 'userReducer',
-    initialState: null,
+    name: 'user',
+    initialState: {
+        loading: false,
+        user: null
+    },
     reducers: {
         login: (state, action) => {
-            state.user = action.payload
+            console.log(action)
+            return action.payload
         },
         logout: (state, action) => {
             state.user = {}
-        },
-        authUser: (state, action) => {
-            state.user = action.payload
         }
-    }
+    },
+    // extraReducers: {
+    //     [fetchUser.pending.type]: (state, action) => {
+    //         state.loading = true;
+    //     },
+    //     [fetchUser.fulfilled.type]: (state, action) => {
+    //         state.loading = false;
+    //         console.log(action);
+    //         if(!action.success) {
+    //             state.user = null
+    //         } else {
+    //             return state
+    //         }
+            
+    //     },
+    //     [fetchUser.rejected.type]: (state, action) => {
+    //         state.loading = false;
+    //         state.user = null;
+    //     }
+    // }
 })
 
-export const { login, logout, authUser } = user.actions;
+export const { login, logout } = user.actions;
 export default user.reducer
-
-export const fetchUser = () => async dispatch => {
-    // loading..
-
-    try{
-        const data = await axios.get('/api/auth')
-        .then(res => {
-            console.log(res)
-            if(!res.data.success){
-                return data
-            } else {
-                console.log('login success.')
-                dispatch(login(res.user))
-                return data
-            }
-            
-        })
-        .then( (data) => {
-            console.log(data)
-        })
-        
-    } catch (e) {
-        console.log(e)
-        // error handler
-    }    
-    
-    // console.log('thunk :', res.user)
-    // dispatch(authUser(res.user))
-}
