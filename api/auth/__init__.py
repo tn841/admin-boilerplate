@@ -1,7 +1,6 @@
 from functools import wraps
 from flask import request, session
-
-from auth.user import User
+from .user import User
 
 
 def api_auth_check(func):
