@@ -18,13 +18,12 @@ function BannerIndexPage() {
     useEffect(() => {
         console.log('BannerIndexPage')
         dispatch(clearBanner())
-        fetchBannerFunc()
-        .then(res => {
+        dispatch(fetchBanner()).then( res => {
             console.log(res)
-            if(!res.success) {
+            if( !res.payload.success){
                 message.warning('배너 정보 불러오기에 실패하였습니다.')
             } else {
-                dispatch(addBanner(res.data))
+                dispatch(addBanner(res.payload.data))
             }
         })
     
@@ -35,7 +34,7 @@ function BannerIndexPage() {
             <h1>배너현황</h1>
             <hr/>
             <ul>
-                {banners.map(banner => <li>{JSON.stringify(banner)}</li>)}
+                {banners.map(banner => <li key={banner.id}>{JSON.stringify(banner)}</li>)}
             </ul>
                 
             

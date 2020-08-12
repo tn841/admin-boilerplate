@@ -1,8 +1,7 @@
 import React from 'react'
 import { Row, Form, Input, Button, Checkbox, Divider, Col, message } from 'antd';
-import { login, fetchLoginUser, fetchLogoutUser, fetchIndex } from '../../../store/user'
+import { login, fetchLoginUser } from '../../../store/user'
 import { useDispatch } from 'react-redux';
-import Axios from 'axios';
 
 const layout = {
   labelCol: { span: 8 },

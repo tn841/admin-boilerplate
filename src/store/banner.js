@@ -1,14 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import Axios from 'axios';
 
-// export const fetchBanner = createAsyncThunk(
-//     'banner/fetchBanner',   
-//     async () => {
-//         console.log('fetchBanner')
-//         const res = await Axios.get('/api/getBanner')
-//         .then( res => res.data)
-//         return res
-//     }
-// )
+export const fetchBanner = createAsyncThunk(
+    'banner/fetchBanner',   
+    async () => {
+        console.log('fetchBanner')
+        const res = await Axios.get('/api/banner/list')
+        .then( res => res.data )
+        return res
+    }
+)
 
 
 const banner = createSlice({
@@ -21,7 +22,7 @@ const banner = createSlice({
         },
         addBanner : (state, action) => {
             console.log('addBanner Reducer')
-            return [...state, action.payload]
+            return [...state, ...action.payload]
         },
         removeBanner : (state, action) => {
             state.filter( banner => banner.id !== action.payload)
@@ -32,23 +33,23 @@ const banner = createSlice({
         clearBanner: (state, action) => {
             return []
         }
+    },
+    extraReducers: {
+        // [fetchBanner.pending.type]: (state, action) => {
+        //     return state
+        // },
+        [fetchBanner.fulfilled.type]: (state, action) => {
+            console.log(action)
+            if(!action.success){
+                return state
+            } else {
+                return action.payload.data
+            }
+        },
+        // [fetchBanner.rejected.type]: (state, action) => {
+        //     return state
+        // }
     }
-    // extraReducers: {
-    //     [fetchBanner.pending.type]: (state, action) => {
-    //         return state
-    //     },
-    //     [fetchBanner.fulfilled.type]: (state, action) => {
-    //         console.log(action)
-    //         if(!action.success){
-    //             state.banner = null
-    //         } else {
-    //             return action.payload
-    //         }
-    //     },
-    //     [fetchBanner.rejected.type]: (state, action) => {
-    //         return state
-    //     }
-    // }
 });
 
 export const { getBanner, addBanner, removeBanner, updateBanner, clearBanner} = banner.actions;
