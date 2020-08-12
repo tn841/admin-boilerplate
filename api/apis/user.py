@@ -13,7 +13,7 @@ def mytime():
     return {'time': time.time()}
 
 
-@user_api.route('/login', methods=['POST'])
+@user_api.route('/login', methods=['POST', 'GET'])
 def userLogin():
     print('request.get_data() : {}'.format(request.get_data()))
     print('request : {}'.format(request.get_json()))
@@ -28,10 +28,11 @@ def userLogin():
     return {'success': True, 'user': tmp_user}
 
 
-@user_api.route('/logout')
+@user_api.route('/logout', methods=['POST', 'GET'])
 @api_auth_check
 def userLogout(auth_result):
-    del session['token']
+    if session.get('token', None):
+        del session['token']
     return {'success': True}
 
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import LoginPage from '../views/LoginPage/LoginPage'
 import { withRouter } from 'react-router-dom';
 

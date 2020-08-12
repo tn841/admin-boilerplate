@@ -27,7 +27,7 @@ def configure_blueprints(app):
 configure_blueprints(app)
 
 
-@app.route('/')
+@app.route('/index')
 def index():
     return {'data': 'welcome index'}
 

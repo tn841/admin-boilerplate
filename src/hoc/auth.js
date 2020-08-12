@@ -19,7 +19,7 @@ export default function(SpectificComponent, option, adminRoute = null) {
 
         const fetchAuthInfo = async () => {
             try {
-                await Axios.get('/api/auth')
+                await Axios.get('/api/user/auth')
                 .then(res => res.data)
                 .then(res => {
                     console.log(res)

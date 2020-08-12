@@ -16,28 +16,16 @@ import UserManagePage from '../views/UserPage/UserManagePage'
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
-import {logout} from '../../store/user'
-import Axios from 'axios';
+import {logout, fetchLogoutUser} from '../../store/user'
+
 const { Sider, Header, Content } = Layout;
 const { SubMenu } = Menu;
-
-const fetchLogoutUser = async () => {
-    await Axios('/api/logout')
-    .then(res => res.data)
-}
 
 function DefaultLayout(props) {
     const user = useSelector(state => state?.user)
     const isLogin = useSelector(state => state.user.isLogin)
     const dispatch = useDispatch()
     const [currentTime, setcurrentTime] = useState('')
-
-    useEffect(() => {
-        console.log(props)
-        return () => {
-            
-        }
-    }, [])
 
     const handleOnClick = () => {
 

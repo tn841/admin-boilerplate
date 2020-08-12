@@ -7,7 +7,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + file_path
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    SECRET_KEY = ''
+    SECRET_KEY = '3JPL8SZMYXTIV8C9AAW0'
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
 
 config = {
