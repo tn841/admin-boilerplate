@@ -1,7 +1,7 @@
 import React from 'react'
-import { Row, Form, Input, Button, Checkbox, Divider, Col, message } from 'antd';
-import { login, fetchLoginUser } from '../../../store/user'
-import { useDispatch } from 'react-redux';
+import { Row, Form, Input, Button, Checkbox, Divider, Col, message, Spin } from 'antd';
+import { login, fetchLoginUser, fetchUser } from '../../../store/user'
+import { useDispatch, useSelector } from 'react-redux';
 
 const layout = {
   labelCol: { span: 8 },
@@ -14,15 +14,16 @@ const tailLayout = {
 function LoginPage(props) {
 
   const dispatch = useDispatch()
+  
+  const loading = useSelector(state => state.loading)
+  console.log(loading)
 
   const onFinish = values => {
     console.log('form validation:', values);
-    
-    fetchLoginUser(values)
-    .then(res => res.data)
+
+    dispatch(fetchUser(values))
     .then(res => {
-      console.log(res)
-      if (res.success) {
+      if (res.payload.success) {
         dispatch(login(res.user))
         message.success('로그인 되었습니다.');
         props.history.push('/')
@@ -46,8 +47,10 @@ function LoginPage(props) {
   }
 
   return (
+    
+    
     <div style={{ position: 'relative', top: '20%' }}>
-
+      <Spin spinning={loading ? true : false} delay={500} />
       <Row >
         <Col span={12} offset={6}>
           <h1 {...rowLayout}>로그인</h1>
@@ -89,6 +92,7 @@ function LoginPage(props) {
         </Col>
       </Row>
     </div>
+    
   )
 }
 

@@ -1,13 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import Axios from 'axios'
 
-// export const fetchUser = createAsyncThunk(
-//     'user/fetchUser',   // 액션 이름
-//     async () => {
-//         const res = await axios.get('/api/auth');
-//         return res.data
-//     }
-// )
+export const fetchUser = createAsyncThunk(
+    'user/fetchUser',   // 액션 이름
+    async (values) => {
+        console.log('fetchUser')
+        const res = await Axios.get('/api/user/login', JSON.stringify(values))
+        .then(res => res.data)
+        return res
+    }
+)
 
 
 /*
@@ -39,8 +41,7 @@ export const fetchLogoutUser = async () => {
 const user = createSlice({
     name: 'user',
     initialState: {
-        loading: false,
-        user: null
+        loading: false
     },
     reducers: {
         login: (state, action) => {
@@ -51,25 +52,25 @@ const user = createSlice({
             state.user = {}
         }
     },
-    // extraReducers: {
-    //     [fetchUser.pending.type]: (state, action) => {
-    //         state.loading = true;
-    //     },
-    //     [fetchUser.fulfilled.type]: (state, action) => {
-    //         state.loading = false;
-    //         console.log(action);
-    //         if(!action.success) {
-    //             state.user = null
-    //         } else {
-    //             return state
-    //         }
+    extraReducers: {
+        [fetchUser.pending.type]: (state, action) => {
+            state.loading = true;
+        },
+        [fetchUser.fulfilled.type]: (state, action) => {
+            state.loading = false;
+            console.log(action);
+            if(!action.success) {
+                return state
+            } else {
+                return action.payload.data
+            }
             
-    //     },
-    //     [fetchUser.rejected.type]: (state, action) => {
-    //         state.loading = false;
-    //         state.user = null;
-    //     }
-    // }
+        },
+        [fetchUser.rejected.type]: (state, action) => {
+            state.loading = false;
+            state.user = null;
+        }
+    }
 })
 
 export const { login, logout } = user.actions;
