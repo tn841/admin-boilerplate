@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {getBanner, fetchBanner, addBanner, clearBanner} from '../../../store/banner'
 import Axios from 'axios';
 import { message } from 'antd';
+import PageTitle from '../Commons/PageTitle';
 
 const fetchBannerFunc = async () => {
     const res = await Axios.get('/api/getBanner')
@@ -31,8 +32,8 @@ function BannerIndexPage() {
 
     return (
         <div>
-            <h1>배너현황</h1>
-            <hr/>
+            <PageTitle title='배너 현황 banner status'/>
+            
             <ul>
                 {banners.map(banner => <li key={banner.id}>{JSON.stringify(banner)}</li>)}
             </ul>

@@ -15,6 +15,7 @@ db = SQLAlchemy(app)
 # db 객체가 생성된 이후에 import 해야 정상적으로 초기화가능
 from models.banner import Banner
 from models.webservice import Webservice
+from models.bannercount import Bannercount
 db.create_all()
 
 

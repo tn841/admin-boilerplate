@@ -4,6 +4,7 @@ import { Layout, Menu, Breadcrumb, Button, message } from 'antd';
 import {
     UserOutlined,
     LinkOutlined,
+    CloudServerOutlined,
 } from '@ant-design/icons';
 
 import MainPage from '../views/MainPage/MainPage'
@@ -17,6 +18,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
 import {logout, fetchLogoutUser} from '../../store/user'
+import ServiceIndexPage from '../views/ServicePage/ServiceIndexPage';
+import ServiceCreatePage from '../views/ServicePage/ServiceCreatePage';
 
 const { Sider, Header, Content } = Layout;
 const { SubMenu } = Menu;
@@ -60,7 +63,7 @@ function DefaultLayout(props) {
             </div>
             <Menu theme="dark" mode="inline"
                 defaultSelectedKeys={['']}
-                defaultOpenKeys={['banner', 'user']}
+                defaultOpenKeys={['banner', 'user', 'service']}
             >
                 <SubMenu key="banner" icon={<LinkOutlined />} title="배너관리">
                     <Menu.Item key="banner_index">
@@ -74,6 +77,14 @@ function DefaultLayout(props) {
                     </Menu.Item>
                     <Menu.Item key="banner_statistics">
                         <NavLink to='/banner/statistics' activeClassName="active">배너 통계</NavLink>
+                    </Menu.Item>
+                </SubMenu>
+                <SubMenu key="service" icon={<CloudServerOutlined />} title="웹서비스관리">
+                    <Menu.Item key="service_index">
+                        <NavLink to='/service' activeClassName="active">웹 서비스 현황</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key="service_create">
+                        <NavLink to='/service/create' activeClassName="active">웹 서비스 추가</NavLink>
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu key="user" icon={<UserOutlined />} title="사용자관리">
@@ -109,6 +120,9 @@ function DefaultLayout(props) {
                 <Route exact path="/banner/create" component={BannerCreatePage} />
                 <Route exact path="/banner/preview" component={BannerPreviewPage} />
                 <Route exact path="/banner/statistics" component={BannerStaticsPage} />
+
+                <Route exact path="/service" component={ServiceIndexPage} />
+                <Route exact path="/service/create" component={ServiceCreatePage} />
 
                 <Route exact path="/user" component={UserIndexPage} />
                 <Route exact path="/user/manage" component={UserManagePage} />

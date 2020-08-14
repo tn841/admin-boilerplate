@@ -14,9 +14,21 @@ def add_banner():
 
 
 @banner_api.route('/list')
-def get_banner_list():
+@api_auth_check
+def get_banner_list(auth_result):
     bannerlist = Banner.query.all()
     print(bannerlist)
     return {'success': True,
             'data': [banner.as_dict() for banner in bannerlist]}
+
+@banner_api.route('/img', methods=['POST'])
+@api_auth_check
+def upload_banner_img(auth_result):
+
+    if 'file' not in request.files:
+        return {'success': False}
+    
+    file = request.files
+    print(file)
+    return {'success': True}
 

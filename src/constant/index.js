@@ -1,0 +1,1 @@
+export const IMG_UPLOAD_URL = '/api/banner/img'
